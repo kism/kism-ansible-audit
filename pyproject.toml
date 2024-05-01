@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "kism-ansible-audit"
+description = "KiSM's ansible audit"
+authors = ["Kieran Gee <kieran.lost.the.game@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10" # as your user: python3.11 -m pip install --upgrade pip
+pyyaml = "^6.0.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.0"
+ruff = "^0.4.2"
+pylance = "^0.10.15"
+
+[tool.black]
+line-length = 120
