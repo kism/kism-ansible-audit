@@ -2,7 +2,6 @@
     "recommendations": [
         "eamodio.gitlens",
         "esbenp.prettier-vscode",
-        "ms-python.black-formatter",
         "charliermarsh.ruff",
         "ms-python.python",
         "ms-python.vscode-pylance",

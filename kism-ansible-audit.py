@@ -1,9 +1,9 @@
 #! /usr/bin/env python
+"""KiSM's Ansible Audit Program."""
 
 # Base Packages
-import os
 import fnmatch
-from collections import Counter
+import os
 
 # Pip Packages
 import yaml
@@ -12,17 +12,16 @@ EXCLUDES = [".venv"]
 DIRECTORY = "/home/kism/src/ansible-playbooks/"
 
 
-def find_name_entries(directory, excludes):
-    """Get list of name tags in yaml files, and their path"""
+def find_name_entries(directory: str, excludes: list) -> list:
+    """Get list of name tags in yaml files, and their path."""
     name_entries = []
     for root, dirs, files in os.walk(directory):
-
         dirs[:] = [d for d in dirs if not d.startswith(".")]
 
         for file in files:
-            if file.endswith(".yaml") or file.endswith(".yml"):
+            if file.endswith((".yaml", ".yml")):
                 file_rel_path = os.path.relpath(os.path.join(root, file), directory)
-                with open(os.path.join(root, file), "r", encoding="utf8") as f:
+                with open(os.path.join(root, file), encoding="utf8") as f:
                     yaml_content = yaml.safe_load(f)
                     if isinstance(yaml_content, list):
                         for entry in yaml_content:
@@ -39,13 +38,12 @@ def find_name_entries(directory, excludes):
     return name_entries
 
 
-def custom_dict_sort(item):
-    """For sorting entries"""
+def __custom_dict_sort(item: list) -> int:
     return item[1]["count"]
 
 
-def create_final_results(results):
-    """Create new data structure for name keys and the files they are in"""
+def create_final_results(results: dict) -> dict:
+    """Create new data structure for name keys and the files they are in."""
     filtered_results = {}
 
     for result in results:
@@ -57,9 +55,7 @@ def create_final_results(results):
 
     filtered_results = {key: value for key, value in filtered_results.items() if value.get("count") != 1}
 
-    sorted_results = dict(sorted(filtered_results.items(), key=custom_dict_sort))
-
-    return sorted_results
+    return dict(sorted(filtered_results.items(), key=__custom_dict_sort))
 
 
 results = find_name_entries(DIRECTORY, EXCLUDES)
